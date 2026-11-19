@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dabay Sports Shop</title>
-    <link rel="stylesheet" href="styles2.css">
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
 
@@ -15,16 +15,10 @@
 
 <nav>
     <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">&#9776; Menu</button>
-
     <div class="nav-links" id="nav-links">
         <a href="#home" data-home class="active">Home</a>
-        <a href="#football" data-section="football">Football</a>
-        <a href="#basketball" data-section="basketball">Basketball</a>
-        <a href="#swimming" data-section="swimming">Swimming</a>
-        <a href="#volleyball" data-section="volleyball">Volleyball</a>
-        <a href="#gym" data-section="gym">Gym</a>
+        <!-- sport links are added by the script from SPORTS -->
     </div>
-
     <div class="nav-actions">
         <button id="cart-button">Cart (<span id="cart-count">0</span>)</button>
     </div>
@@ -45,77 +39,18 @@
 
         <h2>Explore Our Sports Categories</h2>
 
-        <input type="text" id="search-input" placeholder="Search for a sports product...">
+        <input type="text" id="search-input" placeholder="Search for a sport, brand or product...">
 
         <div id="search-results-container" hidden>
             <h3>Search Results</h3>
             <div class="products" id="search-results"></div>
         </div>
 
-        <div class="categories">
-            <div class="category">
-                <h3>Football</h3>
-                <p>Boots, balls, jerseys and accessories.</p>
-                <button class="view-button" data-section="football">View Products</button>
-            </div>
-            <div class="category">
-                <h3>Basketball</h3>
-                <p>Basketballs, shoes, jerseys and equipment.</p>
-                <button class="view-button" data-section="basketball">View Products</button>
-            </div>
-            <div class="category">
-                <h3>Swimming</h3>
-                <p>Goggles, swimming costumes, caps and accessories.</p>
-                <button class="view-button" data-section="swimming">View Products</button>
-            </div>
-            <div class="category">
-                <h3>Volleyball</h3>
-                <p>Volleyballs, knee pads, shoes and nets.</p>
-                <button class="view-button" data-section="volleyball">View Products</button>
-            </div>
-            <div class="category">
-                <h3>Gym</h3>
-                <p>Dumbbells, weights and fitness equipment.</p>
-                <button class="view-button" data-section="gym">View Products</button>
-            </div>
-        </div>
+        <div class="categories"><!-- category tiles are added by the script --></div>
     </section>
 
-    <!-- SPORT SECTIONS: product cards are generated from the CATALOG in the script below -->
-    <section id="football" class="sport-section" hidden>
-        <button class="back-button" data-home>&larr; Back to Home</button>
-        <h2>Football Products</h2>
-        <p class="section-subtitle">Find equipment and accessories for football players and fans.</p>
-        <div class="products" data-sport="football"></div>
-    </section>
-
-    <section id="basketball" class="sport-section" hidden>
-        <button class="back-button" data-home>&larr; Back to Home</button>
-        <h2>Basketball Products</h2>
-        <p class="section-subtitle">Explore our basketball equipment and accessories.</p>
-        <div class="products" data-sport="basketball"></div>
-    </section>
-
-    <section id="swimming" class="sport-section" hidden>
-        <button class="back-button" data-home>&larr; Back to Home</button>
-        <h2>Swimming Products</h2>
-        <p class="section-subtitle">Find swimming equipment for beginners and experienced swimmers.</p>
-        <div class="products" data-sport="swimming"></div>
-    </section>
-
-    <section id="volleyball" class="sport-section" hidden>
-        <button class="back-button" data-home>&larr; Back to Home</button>
-        <h2>Volleyball Products</h2>
-        <p class="section-subtitle">Explore our volleyball products and playing accessories.</p>
-        <div class="products" data-sport="volleyball"></div>
-    </section>
-
-    <section id="gym" class="sport-section" hidden>
-        <button class="back-button" data-home>&larr; Back to Home</button>
-        <h2>Gym Equipment</h2>
-        <p class="section-subtitle">Find equipment for home workouts and professional gyms.</p>
-        <div class="products" data-sport="gym"></div>
-    </section>
+    <!-- SPORT SECTIONS are added by the script -->
+    <div id="sport-sections"></div>
 
     <!-- SHOPPING CART -->
     <section id="cart-section" hidden>
@@ -138,7 +73,7 @@
 
 <footer>
     <p>&copy; 2026 Dabay Sports Shop. All rights reserved.</p>
-    <p>Made by Louis Miricho : AI Product Studio.</p>
+    <p>Made by Louis Ngatia: AI Product Studio.</p>
 </footer>
 
 <script>
@@ -148,72 +83,178 @@ document.addEventListener("DOMContentLoaded", () => {
     // Your WhatsApp number in international format, no + or spaces (Kenya example: 2547XXXXXXXX)
     const WHATSAPP_NUMBER = "2547XXXXXXXX";
 
-    // ---- PRODUCT CATALOG: [name, description, price in KSh] ----
-    // Image for each product is images/<name-in-lowercase-with-dashes>.jpg
-    const CATALOG = {
+    // ---- SPORTS: [id, name, home-page tile text, page subtitle] ----
+    const SPORTS = [
+        ["football", "Football", "Boots, balls, jerseys and accessories.", "Find equipment and accessories for football players and fans."],
+        ["basketball", "Basketball", "Shoes, balls, jerseys and equipment.", "Explore our basketball equipment and accessories."],
+        ["swimming", "Swimming", "Goggles, costumes, caps and training gear.", "Find swimming equipment for beginners and experienced swimmers."],
+        ["volleyball", "Volleyball", "Volleyballs, shoes, knee pads and nets.", "Explore our volleyball products and playing accessories."],
+        ["gym", "Gym", "Dumbbells, weights and fitness equipment.", "Find equipment for home workouts and professional gyms."],
+        ["rugby", "Rugby", "Boots, balls, jerseys and protection.", "Gear up for the scrum, the sevens and everything between."],
+        ["tennis", "Tennis", "Rackets, balls, shoes and accessories.", "Rackets, balls and court gear for every level."],
+        ["athletics", "Athletics", "Running shoes, spikes and running wear.", "Everything for road, track and cross-country runners."]
+    ];
+
+    // ---- CATALOG ----
+    // Each product type: [type name, product noun, description, "Brand line:price|Brand line:price|..."]
+    // Product name = "<brand line> <noun>" (leave noun empty to use the brand line as the full name).
+    // Photos: images/<product-name>.jpg, then images/<type-name>.jpg, then a placeholder.
+    const RAW = {
         football: [
-            ["Football Boots", "Comfortable boots for training and matches.", 4500],
-            ["Football", "Durable footballs for training and matches.", 2000],
-            ["Football Jersey", "Comfortable jerseys for players and supporters.", 1800],
-            ["Shin Guards", "Protective equipment for players' lower legs.", 800],
-            ["Goalkeeper Gloves", "Gloves designed for grip and hand protection.", 1500],
-            ["Football Socks", "Sports socks designed for comfort.", 500],
-            ["Football Shorts", "Light, breathable shorts for matches and training.", 1000],
-            ["Training Cones", "Set of 20 cones for drills and agility work.", 700],
-            ["Football Pump", "Hand pump with needle for inflating match balls.", 600],
-            ["Captain Armband", "Adjustable armband for the team captain.", 300],
-            ["Football Bag", "Roomy bag with a separate compartment for boots.", 1800]
+            ["Football Boots", "Boots", "Boots for matches, firm ground and training.", "Nike Mercurial:9500|Nike Phantom:9000|Nike Tiempo:7500|Adidas Predator:8500|Adidas F50:8500|Puma Future:7000|Everyday Training:4500"],
+            ["Footballs", "Football", "Durable footballs for training and matches.", "Adidas Match:4500|Nike Pitch:3800|Puma Orbita:3500|Mikasa Training:2800|Everyday Training:2000"],
+            ["Football Jerseys", "Jersey", "Replica jerseys for players and supporters.", "Arsenal:2500|Manchester United:2500|Liverpool:2500|Real Madrid:2500|Barcelona:2500|Harambee Stars:2000|Gor Mahia:2000"],
+            ["Goalkeeper Gloves", "Goalkeeper Gloves", "Gloves designed for grip and hand protection.", "Adidas Predator:3500|Nike Vapor Grip:3800|Puma Future:3000|Uhlsport:4500|Everyday:1500"],
+            ["Football Accessories", "", "Essential kit for training and match day.", "Shin Guards:800|Football Socks:500|Football Shorts:1000|Training Cones:700|Football Pump:600|Captain Armband:300|Football Bag:1800"]
         ],
         basketball: [
-            ["Basketball", "Quality basketballs for training and matches.", 2500],
-            ["Basketball Shoes", "Sports shoes for comfort and movement on court.", 5500],
-            ["Basketball Jersey", "Lightweight jerseys for basketball players.", 1800],
-            ["Basketball Hoop", "A hoop for practising basketball shots.", 8000],
-            ["Basketball Shorts", "Comfortable shorts for training and matches.", 1200],
-            ["Basketball Pump", "Compact pump to keep your ball at the right pressure.", 600],
-            ["Basketball Socks", "Cushioned socks for long games on court.", 600],
-            ["Wristbands", "Pair of sweat-absorbing wristbands.", 400],
-            ["Mouthguard", "Moulded mouthguard for contact protection.", 700],
-            ["Ball Bag", "Mesh bag that carries up to 5 balls.", 1500]
+            ["Basketball Shoes", "Basketball Shoes", "Court shoes for grip, comfort and movement.", "Nike LeBron:13500|Air Jordan:12500|Nike KD:10500|Adidas Harden:10000|Under Armour Curry:11500|Everyday Court:5500"],
+            ["Basketballs", "Basketball", "Quality basketballs for training and matches.", "Spalding:3800|Wilson Evolution:4800|Molten:4200|Nike Elite:4500|Everyday Training:2500"],
+            ["Basketball Jerseys", "Jersey", "Lightweight jerseys for players and fans.", "Los Angeles Lakers:2500|Golden State Warriors:2500|Chicago Bulls:2500|Boston Celtics:2500|Everyday Training:1800"],
+            ["Basketball Equipment", "", "Hoops and accessories for practice and games.", "Basketball Hoop:8000|Basketball Shorts:1200|Basketball Socks:600|Basketball Pump:600|Wristbands:400|Mouthguard:700|Ball Bag:1500"]
         ],
         swimming: [
-            ["Swimming Goggles", "Goggles designed to protect the eyes while swimming.", 1000],
-            ["Swimming Costume", "Comfortable swimwear for swimming and training.", 2000],
-            ["Swimming Cap", "A cap designed to keep hair contained while swimming.", 600],
-            ["Swimming Fins", "Training fins for practising kicking techniques.", 2500],
-            ["Kickboard", "A training board used to practise swimming kicks.", 1200],
-            ["Swim Trunks", "Quick-drying trunks for pool and training sessions.", 1500],
-            ["Quick-Dry Towel", "Light towel that dries fast and packs small.", 1200],
-            ["Pull Buoy", "Foam float for upper-body and stroke training.", 1300],
-            ["Ear Plugs and Nose Clip", "Set that keeps water out during swims.", 400],
-            ["Waterproof Bag", "Roll-top bag that keeps your kit dry.", 1000]
+            ["Swimming Goggles", "Goggles", "Goggles designed to protect the eyes while swimming.", "Speedo:1800|Arena:1700|TYR:2000|Aqua Sphere:1900|Everyday:1000"],
+            ["Swimming Costumes", "Swimming Costume", "Comfortable swimwear for swimming and training.", "Speedo:3500|Arena:3000|Everyday:2000"],
+            ["Swim Trunks", "Swim Trunks", "Quick-drying trunks for pool and training sessions.", "Speedo:2500|Arena:2200|Everyday:1500"],
+            ["Swimming Caps", "Swimming Cap", "A cap that keeps hair contained while swimming.", "Speedo:900|Arena:800|Everyday Silicone:600"],
+            ["Training Gear", "", "Training aids and accessories for the pool.", "Swimming Fins:2500|Kickboard:1200|Pull Buoy:1300|Quick-Dry Towel:1200|Ear Plugs and Nose Clip:400|Waterproof Bag:1000"]
         ],
         volleyball: [
-            ["Volleyball", "Volleyballs suitable for training and competitive games.", 2000],
-            ["Knee Pads", "Protective knee pads for players during matches.", 1000],
-            ["Volleyball Shoes", "Comfortable shoes for movement and court performance.", 4500],
-            ["Volleyball Net", "A net used for volleyball training and matches.", 3500],
-            ["Volleyball Jersey", "Sports jerseys designed for volleyball players.", 1500],
-            ["Volleyball Shorts", "Stretchy shorts that allow full movement.", 1200],
-            ["Ankle Brace", "Supportive brace that helps protect against rolled ankles.", 900],
-            ["Volleyball Socks", "Padded socks for comfort during long matches.", 500],
-            ["Volleyball Pump", "Hand pump for inflating volleyballs.", 600]
+            ["Volleyballs", "Volleyball", "Volleyballs for training and competitive games.", "Mikasa:4500|Molten:4200|Wilson:3800|Everyday Training:2000"],
+            ["Volleyball Shoes", "Volleyball Shoes", "Shoes for movement and court performance.", "Mizuno Wave:9000|Asics Gel:8500|Nike Hyperspike:7500|Everyday Court:4500"],
+            ["Knee Pads", "Knee Pads", "Protective knee pads for players during matches.", "Mizuno:1800|Asics:1700|Everyday:1000"],
+            ["Volleyball Jerseys", "Jersey", "Sports jerseys designed for volleyball players.", "Mizuno:2500|Asics:2500|Everyday Team:1500"],
+            ["Volleyball Equipment", "", "Nets and accessories for training and matches.", "Volleyball Net:3500|Volleyball Shorts:1200|Ankle Brace:900|Volleyball Socks:500|Volleyball Pump:600"]
         ],
         gym: [
-            ["Dumbbells", "Weights used for strength training and muscle exercises.", 2500],
-            ["Barbell", "Equipment used for weightlifting and strength training.", 6000],
-            ["Exercise Mat", "A comfortable mat for floor exercises and stretching.", 1500],
-            ["Resistance Bands", "Flexible bands used for strength and fitness exercises.", 800],
-            ["Treadmill", "A machine used for indoor walking, jogging and running.", 65000],
-            ["Skipping Rope", "A simple fitness tool used for cardio exercises.", 500],
-            ["Kettlebell", "Cast kettlebell for swings, squats and full-body workouts.", 3000],
-            ["Weight Plates", "Pair of plates to load onto your barbell.", 4500],
-            ["Pull-Up Bar", "Doorway bar for pull-ups and hanging exercises.", 3500],
-            ["Gym Gloves", "Padded gloves that protect your palms when lifting.", 900],
-            ["Foam Roller", "Roller for easing tight muscles after training.", 1800],
-            ["Weight Bench", "Adjustable bench for presses and dumbbell work.", 12000]
+            ["Dumbbells", "Dumbbells", "Weights for strength training and muscle exercises.", "Rubber Hex:3500|Adjustable:8000|Vinyl Coated:2500|Cast Iron:3000"],
+            ["Barbells and Plates", "", "Equipment for weightlifting and strength training.", "Olympic Barbell:8000|Standard Barbell:6000|EZ Curl Bar:3500|Weight Plates:4500"],
+            ["Cardio Machines", "", "Machines and tools for cardio workouts.", "Treadmill:65000|Exercise Bike:28000|Rowing Machine:42000|Skipping Rope:500"],
+            ["Gym Accessories", "", "Everyday gear for home workouts and gyms.", "Exercise Mat:1500|Resistance Bands:800|Kettlebell:3000|Weight Bench:12000|Pull-Up Bar:3500|Gym Gloves:900|Foam Roller:1800"]
+        ],
+        rugby: [
+            ["Rugby Boots", "Rugby Boots", "Boots with grip for the scrum, tackles and sprints.", "Adidas Malice:8500|Canterbury Stampede:8000|Gilbert Barbarian:7500|Everyday Training:4000"],
+            ["Rugby Balls", "Rugby Ball", "Balls for matches, sevens and training.", "Gilbert Match:4500|Canterbury Match:3800|Everyday Training:2200"],
+            ["Rugby Jerseys", "Jersey", "Durable jerseys for players and supporters.", "Kenya Shujaa:2500|Kenya Simbas:2500|Everyday Team:1800"],
+            ["Rugby Protection and Kit", "", "Protection and training kit for the pitch.", "Scrum Cap:2500|Mouthguard:700|Shoulder Pads:3500|Rugby Shorts:1200|Tackle Bag:6500"]
+        ],
+        tennis: [
+            ["Tennis Rackets", "Racket", "Rackets for control, power and spin.", "Wilson Pro Staff:14000|Babolat Pure Drive:15500|Head Speed:13500|Yonex:12500|Everyday Beginner:4500"],
+            ["Tennis Balls", "Tennis Balls", "Tube of 3 balls for matches and practice.", "Wilson:800|Penn:700|Dunlop:750|Slazenger:800"],
+            ["Tennis Shoes", "Tennis Shoes", "Court shoes built for quick side-to-side movement.", "Nike Court:9000|Adidas Barricade:9500|Asics Gel-Resolution:10500|Everyday Court:4500"],
+            ["Tennis Accessories", "", "Bags, grips and wear for the court.", "Racket Bag:3500|Overgrips (3 Pack):600|Wristbands:400|Headband:300|Tennis Cap:900"]
+        ],
+        athletics: [
+            ["Running Shoes", "Running Shoes", "Cushioned shoes for road running and training.", "Nike Pegasus:11000|Adidas Adizero:10500|Asics Gel-Nimbus:12500|Brooks Ghost:12000|Puma Deviate:9500|Everyday Trainers:4000"],
+            ["Track Spikes", "Track Spikes", "Lightweight spikes for sprints and middle distance.", "Nike Zoom:9500|Adidas Adizero:8500|Puma evoSPEED:8000|Everyday Spikes:4500"],
+            ["Running Wear", "", "Light, breathable clothing for runners.", "Running Shorts:1200|Running Vest:1000|Compression Tights:2200|Running Cap:700|Running Socks:600"],
+            ["Running Accessories", "", "Tools to carry, time and fuel your runs.", "Water Bottle:700|Running Armband:900|Hydration Belt:1800|Stopwatch:1200|Sports Watch:6500"]
         ]
     };
+
+    // Turn the compact text above into product objects
+    const CATALOG = {};
+    const ALL = [];
+    SPORTS.forEach(([id, label]) => {
+        CATALOG[id] = RAW[id].map(([type, noun, desc, text]) => {
+            const items = text.split("|").map(s => {
+                const [line, price] = s.split(":");
+                return { sport: id, sportLabel: label, type, line, desc,
+                         name: noun ? `${line} ${noun}` : line, price: Number(price) };
+            });
+            ALL.push(...items);
+            return { type, items };
+        });
+    });
+
+    // ---- BUILD THE PAGE ----
+    const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
+    function card(p) {
+        return `
+            <div class="product">
+                <img src="images/${slug(p.name)}.jpg" data-fb="images/${slug(p.type)}.jpg" alt="${p.name}" loading="lazy">
+                <h3>${p.name}</h3>
+                <p>${p.desc}</p>
+                <p class="price">KSh ${p.price.toLocaleString()}</p>
+                <button class="add-cart" data-name="${p.name}" data-price="${p.price}">Add to Cart</button>
+            </div>`;
+    }
+
+    document.getElementById("nav-links").insertAdjacentHTML("beforeend",
+        SPORTS.map(([id, label]) => `<a href="#${id}" data-section="${id}">${label}</a>`).join(""));
+
+    document.querySelector(".categories").innerHTML = SPORTS.map(([id, label, tile]) => `
+        <div class="category">
+            <h3>${label}</h3>
+            <p>${tile}</p>
+            <button class="view-button" data-section="${id}">View Products</button>
+        </div>`).join("");
+
+    const sectionsHost = document.getElementById("sport-sections");
+    sectionsHost.innerHTML = SPORTS.map(([id, label, , subtitle]) => `
+        <section id="${id}" class="sport-section" hidden>
+            <button class="back-button" data-home>&larr; Back to Home</button>
+            <h2>${label} Products</h2>
+            <p class="section-subtitle">${subtitle}</p>
+            <div class="type-tabs"></div>
+            <div class="line-chips"></div>
+            <div class="products"></div>
+        </section>`).join("");
+
+    // Which product type (tab) and brand line (chip) is selected in each sport
+    const view = {};
+    SPORTS.forEach(([id]) => view[id] = { t: 0, l: "" });
+
+    function renderSport(id) {
+        const sec = document.getElementById(id);
+        const v = view[id];
+        const types = CATALOG[id];
+        const current = types[v.t];
+
+        sec.querySelector(".type-tabs").innerHTML = types.map((t, i) =>
+            `<button class="type-tab${i === v.t ? " active" : ""}" data-t="${i}">${t.type}</button>`).join("");
+
+        const names = current.items.map(p => p.line);
+        sec.querySelector(".line-chips").innerHTML = names.length > 1
+            ? ["All", ...names].map(n => {
+                const val = n === "All" ? "" : n;
+                return `<button class="chip${val === v.l ? " active" : ""}" data-l="${val}">${n}</button>`;
+            }).join("")
+            : "";
+
+        sec.querySelector(".products").innerHTML =
+            current.items.filter(p => !v.l || p.line === v.l).map(card).join("");
+    }
+
+    SPORTS.forEach(([id]) => renderSport(id));
+
+    sectionsHost.addEventListener("click", (e) => {
+        const btn = e.target.closest(".type-tab, .chip");
+        if (!btn) return;
+        const id = btn.closest(".sport-section").id;
+        if (btn.classList.contains("type-tab")) {
+            view[id] = { t: Number(btn.dataset.t), l: "" };
+        } else {
+            view[id].l = btn.dataset.l;
+        }
+        renderSport(id);
+    });
+
+    // If a photo is missing: try the product-type photo, then show a neat placeholder
+    document.addEventListener("error", (e) => {
+        const img = e.target;
+        if (img.tagName !== "IMG" || img.dataset.done) return;
+        if (img.dataset.fb && !img.dataset.triedFb) {
+            img.dataset.triedFb = "1";
+            img.src = img.dataset.fb;
+            return;
+        }
+        img.dataset.done = "1";
+        const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="180"><rect width="240" height="180" fill="#f4f6f9"/><text x="120" y="95" font-family="Arial" font-size="15" font-weight="bold" fill="#0b0c10" text-anchor="middle">${img.alt}</text></svg>`;
+        img.src = "data:image/svg+xml," + encodeURIComponent(svg);
+    }, true);
 
     // ---- ELEMENTS ----
     const homeSection = document.getElementById("home");
@@ -235,29 +276,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const searchResultsContainer = document.getElementById("search-results-container");
     const searchResultsGrid = document.getElementById("search-results");
 
-    // ---- BUILD PRODUCT CARDS ----
-    const slug = name => name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-
-    document.querySelectorAll(".products[data-sport]").forEach(grid => {
-        grid.innerHTML = CATALOG[grid.dataset.sport].map(([name, desc, price]) => `
-            <div class="product">
-                <img src="images/${slug(name)}.jpg" alt="${name}" loading="lazy">
-                <h3>${name}</h3>
-                <p>${desc}</p>
-                <p class="price">KSh ${price.toLocaleString()}</p>
-                <button class="add-cart" data-name="${name}" data-price="${price}">Add to Cart</button>
-            </div>`).join("");
-    });
-
-    // If a product photo is missing, show a neat placeholder instead of a broken image
-    document.addEventListener("error", (e) => {
-        const img = e.target;
-        if (img.tagName !== "IMG" || img.dataset.fallback) return;
-        img.dataset.fallback = "1";
-        const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="180"><rect width="240" height="180" fill="#edf3ff"/><text x="120" y="95" font-family="Arial" font-size="16" font-weight="bold" fill="#0b1f4b" text-anchor="middle">${img.alt}</text></svg>`;
-        img.src = "data:image/svg+xml," + encodeURIComponent(svg);
-    }, true);
-
     // ---- CART STATE (saved in the browser so it survives a refresh) ----
     let cart = [];
     try { cart = JSON.parse(localStorage.getItem("dabay-cart")) || []; } catch (err) { cart = []; }
@@ -267,9 +285,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ---- NAVIGATION ----
-    menuToggle.addEventListener("click", () => {
-        navLinksContainer.classList.toggle("active");
-    });
+    menuToggle.addEventListener("click", () => navLinksContainer.classList.toggle("active"));
 
     function hideAllSections() {
         homeSection.hidden = true;
@@ -332,10 +348,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const originalText = buttonEl.textContent;
         buttonEl.textContent = "Added!";
-        buttonEl.style.backgroundColor = "#006b3c";
+        buttonEl.style.backgroundColor = "#0b0c10";
+        buttonEl.style.color = "#ffffff";
         setTimeout(() => {
             buttonEl.textContent = originalText;
             buttonEl.style.backgroundColor = "";
+            buttonEl.style.color = "";
         }, 800);
     }
 
@@ -400,9 +418,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // ---- LIVE SEARCH ----
-    const allProducts = Array.from(document.querySelectorAll(".sport-section .product"));
-
+    // ---- LIVE SEARCH (matches sport, brand, product type, name and description) ----
     searchInput.addEventListener("input", () => {
         const query = searchInput.value.trim().toLowerCase();
         searchResultsGrid.innerHTML = "";
@@ -412,11 +428,8 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const matches = allProducts.filter(product => {
-            const title = product.querySelector("h3").textContent.toLowerCase();
-            const desc = product.querySelector("p").textContent.toLowerCase();
-            return title.includes(query) || desc.includes(query);
-        });
+        const matches = ALL.filter(p =>
+            `${p.name} ${p.type} ${p.sportLabel} ${p.desc}`.toLowerCase().includes(query));
 
         searchResultsContainer.hidden = false;
 
@@ -425,7 +438,7 @@ document.addEventListener("DOMContentLoaded", () => {
             msg.textContent = `No products found matching "${searchInput.value.trim()}".`;
             searchResultsGrid.appendChild(msg);
         } else {
-            matches.forEach(match => searchResultsGrid.appendChild(match.cloneNode(true)));
+            searchResultsGrid.innerHTML = matches.map(card).join("");
         }
     });
 
