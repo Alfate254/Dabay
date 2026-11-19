@@ -1,131 +1,437 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Savings Calculator and Budget Planner</title>
-
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dabay Sports Shop</title>
+    <link rel="stylesheet" href="styles2.css">
 </head>
 <body>
 
-  <main class="container">
+<header>
+    <h1>Dabay Sports Shop</h1>
+    <p>Your trusted store for sports equipment and merchandise</p>
+</header>
 
-    <header class="page-header">
-      <h1>Savings Calculator</h1>
+<nav>
+    <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">&#9776; Menu</button>
 
-      <p class="intro-text">
-        Many people struggle to know how much they should save each week or
-        month, how much they can safely spend, and how long it will take to
-        reach an important financial target.
-      </p>
+    <div class="nav-links" id="nav-links">
+        <a href="#home" data-home class="active">Home</a>
+        <a href="#football" data-section="football">Football</a>
+        <a href="#basketball" data-section="basketball">Basketball</a>
+        <a href="#swimming" data-section="swimming">Swimming</a>
+        <a href="#volleyball" data-section="volleyball">Volleyball</a>
+        <a href="#gym" data-section="gym">Gym</a>
+    </div>
 
-      <p class="problem-text">
-        This website helps solve that problem by calculating how long it will
-        take to reach a savings target, showing how much of your salary you can
-        save or spend, and providing ideas to help you achieve your goal sooner.
-      </p>
-    </header>
+    <div class="nav-actions">
+        <button id="cart-button">Cart (<span id="cart-count">0</span>)</button>
+    </div>
+</nav>
 
-    <!-- BUDGET PLANNER -->
-    <section class="calculator-card">
-      <h2>Budget Planner</h2>
+<main>
 
-      <p class="small-text">
-        Enter your salary and the percentage you want to save. These values will
-        also be used by the savings calculator.
-      </p>
-
-      <form id="budgetForm">
-        <div class="input-group">
-          <label for="salary">Salary</label>
-
-          <input
-            type="number"
-            id="salary"
-            placeholder="Enter your salary"
-            min="100"
-            required
-          >
+    <!-- HOME PAGE -->
+    <section id="home">
+        <div class="hero-intro">
+            <h2>Welcome to Dabay Sports Shop</h2>
+            <p>
+                Dabay Sports Shop provides different types of sports equipment,
+                clothing and accessories for athletes, sports teams and fitness enthusiasts.
+            </p>
+            <p class="tagline">Our aim is to make quality sports products available at affordable prices.</p>
         </div>
 
-        <div class="input-group">
-          <label for="salaryPeriod">Salary period</label>
+        <h2>Explore Our Sports Categories</h2>
 
-          <select id="salaryPeriod" required>
-            <option value="weekly">Weekly</option>
-            <option value="monthly">Monthly</option>
-          </select>
+        <input type="text" id="search-input" placeholder="Search for a sports product...">
+
+        <div id="search-results-container" hidden>
+            <h3>Search Results</h3>
+            <div class="products" id="search-results"></div>
         </div>
 
-        <div class="input-group">
-          <label for="savingPercentage">Savings percentage</label>
-
-          <input
-            type="number"
-            id="savingPercentage"
-            placeholder="For example, 20"
-            min="0"
-            max="100"
-            value="5"
-            required
-          >
+        <div class="categories">
+            <div class="category">
+                <h3>Football</h3>
+                <p>Boots, balls, jerseys and accessories.</p>
+                <button class="view-button" data-section="football">View Products</button>
+            </div>
+            <div class="category">
+                <h3>Basketball</h3>
+                <p>Basketballs, shoes, jerseys and equipment.</p>
+                <button class="view-button" data-section="basketball">View Products</button>
+            </div>
+            <div class="category">
+                <h3>Swimming</h3>
+                <p>Goggles, swimming costumes, caps and accessories.</p>
+                <button class="view-button" data-section="swimming">View Products</button>
+            </div>
+            <div class="category">
+                <h3>Volleyball</h3>
+                <p>Volleyballs, knee pads, shoes and nets.</p>
+                <button class="view-button" data-section="volleyball">View Products</button>
+            </div>
+            <div class="category">
+                <h3>Gym</h3>
+                <p>Dumbbells, weights and fitness equipment.</p>
+                <button class="view-button" data-section="gym">View Products</button>
+            </div>
         </div>
-
-        <button type="submit">
-          Calculate budget
-        </button>
-      </form>
-
-      <div id="budgetResult" class="result hidden"></div>
     </section>
 
-    <!-- SAVINGS CALCULATOR -->
-    <section class="calculator-card">
-      <h2>Savings Target Calculator</h2>
-
-      <p class="small-text">
-        Enter your target. The weekly savings amount will automatically match
-        the amount calculated in the budget planner.
-      </p>
-
-      <form id="savingsForm">
-        <div class="input-group">
-          <label for="savingsTarget">Savings target</label>
-
-          <input
-            type="number"
-            id="savingsTarget"
-            placeholder="For example, 50000"
-            min="10"
-            required
-          >
-        </div>
-
-        <div class="input-group">
-          <label for="weeklySavings">Weekly savings</label>
-
-          <input
-            type="number"
-            id="weeklySavings"
-            placeholder="Calculate your budget first"
-            min="100"
-            readonly
-            required
-          >
-        </div>
-
-        <button type="submit">
-          Calculate savings time
-        </button>
-      </form>
-
-      <div id="savingsResult" class="result shown"></div>
+    <!-- SPORT SECTIONS: product cards are generated from the CATALOG in the script below -->
+    <section id="football" class="sport-section" hidden>
+        <button class="back-button" data-home>&larr; Back to Home</button>
+        <h2>Football Products</h2>
+        <p class="section-subtitle">Find equipment and accessories for football players and fans.</p>
+        <div class="products" data-sport="football"></div>
     </section>
 
-  </main>
+    <section id="basketball" class="sport-section" hidden>
+        <button class="back-button" data-home>&larr; Back to Home</button>
+        <h2>Basketball Products</h2>
+        <p class="section-subtitle">Explore our basketball equipment and accessories.</p>
+        <div class="products" data-sport="basketball"></div>
+    </section>
 
-  <script src="script.js"></script>
+    <section id="swimming" class="sport-section" hidden>
+        <button class="back-button" data-home>&larr; Back to Home</button>
+        <h2>Swimming Products</h2>
+        <p class="section-subtitle">Find swimming equipment for beginners and experienced swimmers.</p>
+        <div class="products" data-sport="swimming"></div>
+    </section>
+
+    <section id="volleyball" class="sport-section" hidden>
+        <button class="back-button" data-home>&larr; Back to Home</button>
+        <h2>Volleyball Products</h2>
+        <p class="section-subtitle">Explore our volleyball products and playing accessories.</p>
+        <div class="products" data-sport="volleyball"></div>
+    </section>
+
+    <section id="gym" class="sport-section" hidden>
+        <button class="back-button" data-home>&larr; Back to Home</button>
+        <h2>Gym Equipment</h2>
+        <p class="section-subtitle">Find equipment for home workouts and professional gyms.</p>
+        <div class="products" data-sport="gym"></div>
+    </section>
+
+    <!-- SHOPPING CART -->
+    <section id="cart-section" hidden>
+        <button class="back-button" data-home>&larr; Back to Home</button>
+        <h2>Your Shopping Cart</h2>
+
+        <ul id="cart-items"></ul>
+        <p id="empty-cart-msg">Your cart is empty. Pick a sport to start shopping.</p>
+
+        <div class="cart-summary">
+            <h3>Total: KSh <span id="cart-total">0</span></h3>
+            <div class="cart-actions">
+                <button id="checkout-btn">Order on WhatsApp</button>
+                <button id="clear-cart">Clear Cart</button>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <p>&copy; 2026 Dabay Sports Shop. All rights reserved.</p>
+    <p>Made by Louis Miricho : AI Product Studio.</p>
+</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    // ---- SHOP SETTINGS ----
+    // Your WhatsApp number in international format, no + or spaces (Kenya example: 2547XXXXXXXX)
+    const WHATSAPP_NUMBER = "2547XXXXXXXX";
+
+    // ---- PRODUCT CATALOG: [name, description, price in KSh] ----
+    // Image for each product is images/<name-in-lowercase-with-dashes>.jpg
+    const CATALOG = {
+        football: [
+            ["Football Boots", "Comfortable boots for training and matches.", 4500],
+            ["Football", "Durable footballs for training and matches.", 2000],
+            ["Football Jersey", "Comfortable jerseys for players and supporters.", 1800],
+            ["Shin Guards", "Protective equipment for players' lower legs.", 800],
+            ["Goalkeeper Gloves", "Gloves designed for grip and hand protection.", 1500],
+            ["Football Socks", "Sports socks designed for comfort.", 500],
+            ["Football Shorts", "Light, breathable shorts for matches and training.", 1000],
+            ["Training Cones", "Set of 20 cones for drills and agility work.", 700],
+            ["Football Pump", "Hand pump with needle for inflating match balls.", 600],
+            ["Captain Armband", "Adjustable armband for the team captain.", 300],
+            ["Football Bag", "Roomy bag with a separate compartment for boots.", 1800]
+        ],
+        basketball: [
+            ["Basketball", "Quality basketballs for training and matches.", 2500],
+            ["Basketball Shoes", "Sports shoes for comfort and movement on court.", 5500],
+            ["Basketball Jersey", "Lightweight jerseys for basketball players.", 1800],
+            ["Basketball Hoop", "A hoop for practising basketball shots.", 8000],
+            ["Basketball Shorts", "Comfortable shorts for training and matches.", 1200],
+            ["Basketball Pump", "Compact pump to keep your ball at the right pressure.", 600],
+            ["Basketball Socks", "Cushioned socks for long games on court.", 600],
+            ["Wristbands", "Pair of sweat-absorbing wristbands.", 400],
+            ["Mouthguard", "Moulded mouthguard for contact protection.", 700],
+            ["Ball Bag", "Mesh bag that carries up to 5 balls.", 1500]
+        ],
+        swimming: [
+            ["Swimming Goggles", "Goggles designed to protect the eyes while swimming.", 1000],
+            ["Swimming Costume", "Comfortable swimwear for swimming and training.", 2000],
+            ["Swimming Cap", "A cap designed to keep hair contained while swimming.", 600],
+            ["Swimming Fins", "Training fins for practising kicking techniques.", 2500],
+            ["Kickboard", "A training board used to practise swimming kicks.", 1200],
+            ["Swim Trunks", "Quick-drying trunks for pool and training sessions.", 1500],
+            ["Quick-Dry Towel", "Light towel that dries fast and packs small.", 1200],
+            ["Pull Buoy", "Foam float for upper-body and stroke training.", 1300],
+            ["Ear Plugs and Nose Clip", "Set that keeps water out during swims.", 400],
+            ["Waterproof Bag", "Roll-top bag that keeps your kit dry.", 1000]
+        ],
+        volleyball: [
+            ["Volleyball", "Volleyballs suitable for training and competitive games.", 2000],
+            ["Knee Pads", "Protective knee pads for players during matches.", 1000],
+            ["Volleyball Shoes", "Comfortable shoes for movement and court performance.", 4500],
+            ["Volleyball Net", "A net used for volleyball training and matches.", 3500],
+            ["Volleyball Jersey", "Sports jerseys designed for volleyball players.", 1500],
+            ["Volleyball Shorts", "Stretchy shorts that allow full movement.", 1200],
+            ["Ankle Brace", "Supportive brace that helps protect against rolled ankles.", 900],
+            ["Volleyball Socks", "Padded socks for comfort during long matches.", 500],
+            ["Volleyball Pump", "Hand pump for inflating volleyballs.", 600]
+        ],
+        gym: [
+            ["Dumbbells", "Weights used for strength training and muscle exercises.", 2500],
+            ["Barbell", "Equipment used for weightlifting and strength training.", 6000],
+            ["Exercise Mat", "A comfortable mat for floor exercises and stretching.", 1500],
+            ["Resistance Bands", "Flexible bands used for strength and fitness exercises.", 800],
+            ["Treadmill", "A machine used for indoor walking, jogging and running.", 65000],
+            ["Skipping Rope", "A simple fitness tool used for cardio exercises.", 500],
+            ["Kettlebell", "Cast kettlebell for swings, squats and full-body workouts.", 3000],
+            ["Weight Plates", "Pair of plates to load onto your barbell.", 4500],
+            ["Pull-Up Bar", "Doorway bar for pull-ups and hanging exercises.", 3500],
+            ["Gym Gloves", "Padded gloves that protect your palms when lifting.", 900],
+            ["Foam Roller", "Roller for easing tight muscles after training.", 1800],
+            ["Weight Bench", "Adjustable bench for presses and dumbbell work.", 12000]
+        ]
+    };
+
+    // ---- ELEMENTS ----
+    const homeSection = document.getElementById("home");
+    const sportSections = document.querySelectorAll(".sport-section");
+    const cartSection = document.getElementById("cart-section");
+    const navLinks = document.querySelectorAll("nav a");
+    const navLinksContainer = document.getElementById("nav-links");
+    const menuToggle = document.getElementById("menu-toggle");
+
+    const cartButton = document.getElementById("cart-button");
+    const cartCountEl = document.getElementById("cart-count");
+    const cartItemsEl = document.getElementById("cart-items");
+    const cartTotalEl = document.getElementById("cart-total");
+    const emptyCartMsg = document.getElementById("empty-cart-msg");
+    const clearCartBtn = document.getElementById("clear-cart");
+    const checkoutBtn = document.getElementById("checkout-btn");
+
+    const searchInput = document.getElementById("search-input");
+    const searchResultsContainer = document.getElementById("search-results-container");
+    const searchResultsGrid = document.getElementById("search-results");
+
+    // ---- BUILD PRODUCT CARDS ----
+    const slug = name => name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
+    document.querySelectorAll(".products[data-sport]").forEach(grid => {
+        grid.innerHTML = CATALOG[grid.dataset.sport].map(([name, desc, price]) => `
+            <div class="product">
+                <img src="images/${slug(name)}.jpg" alt="${name}" loading="lazy">
+                <h3>${name}</h3>
+                <p>${desc}</p>
+                <p class="price">KSh ${price.toLocaleString()}</p>
+                <button class="add-cart" data-name="${name}" data-price="${price}">Add to Cart</button>
+            </div>`).join("");
+    });
+
+    // If a product photo is missing, show a neat placeholder instead of a broken image
+    document.addEventListener("error", (e) => {
+        const img = e.target;
+        if (img.tagName !== "IMG" || img.dataset.fallback) return;
+        img.dataset.fallback = "1";
+        const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="180"><rect width="240" height="180" fill="#edf3ff"/><text x="120" y="95" font-family="Arial" font-size="16" font-weight="bold" fill="#0b1f4b" text-anchor="middle">${img.alt}</text></svg>`;
+        img.src = "data:image/svg+xml," + encodeURIComponent(svg);
+    }, true);
+
+    // ---- CART STATE (saved in the browser so it survives a refresh) ----
+    let cart = [];
+    try { cart = JSON.parse(localStorage.getItem("dabay-cart")) || []; } catch (err) { cart = []; }
+
+    function saveCart() {
+        try { localStorage.setItem("dabay-cart", JSON.stringify(cart)); } catch (err) { /* storage unavailable */ }
+    }
+
+    // ---- NAVIGATION ----
+    menuToggle.addEventListener("click", () => {
+        navLinksContainer.classList.toggle("active");
+    });
+
+    function hideAllSections() {
+        homeSection.hidden = true;
+        cartSection.hidden = true;
+        sportSections.forEach(sec => sec.hidden = true);
+        navLinksContainer.classList.remove("active");
+    }
+
+    function setActiveNav(target) {
+        navLinks.forEach(link => link.classList.remove("active"));
+        if (target) target.classList.add("active");
+    }
+
+    function showHome() {
+        hideAllSections();
+        homeSection.hidden = false;
+        setActiveNav(document.querySelector("nav a[data-home]"));
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function showSection(sectionId) {
+        const targetSection = document.getElementById(sectionId);
+        if (!targetSection) return;
+        hideAllSections();
+        targetSection.hidden = false;
+        setActiveNav(document.querySelector(`nav a[data-section="${sectionId}"]`));
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    document.querySelectorAll("[data-home]").forEach(btn => {
+        btn.addEventListener("click", (e) => { e.preventDefault(); showHome(); });
+    });
+
+    document.querySelectorAll("[data-section]").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            showSection(btn.getAttribute("data-section"));
+        });
+    });
+
+    cartButton.addEventListener("click", () => {
+        hideAllSections();
+        cartSection.hidden = false;
+        setActiveNav(null);
+        renderCart();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    // ---- CART ----
+    function updateCartCount() {
+        cartCountEl.textContent = cart.reduce((sum, item) => sum + item.qty, 0);
+    }
+
+    function addToCart(name, price, buttonEl) {
+        const existing = cart.find(item => item.name === name);
+        if (existing) existing.qty += 1;
+        else cart.push({ name, price: Number(price), qty: 1 });
+        saveCart();
+        updateCartCount();
+
+        const originalText = buttonEl.textContent;
+        buttonEl.textContent = "Added!";
+        buttonEl.style.backgroundColor = "#006b3c";
+        setTimeout(() => {
+            buttonEl.textContent = originalText;
+            buttonEl.style.backgroundColor = "";
+        }, 800);
+    }
+
+    function renderCart() {
+        cartItemsEl.innerHTML = "";
+        let total = 0;
+        const empty = cart.length === 0;
+        emptyCartMsg.hidden = !empty;
+        clearCartBtn.hidden = empty;
+        checkoutBtn.hidden = empty;
+
+        cart.forEach((item, index) => {
+            const itemTotal = item.price * item.qty;
+            total += itemTotal;
+            const li = document.createElement("li");
+            li.innerHTML = `
+                <span class="cart-line"><strong>${item.name}</strong><small>KSh ${itemTotal.toLocaleString()}</small></span>
+                <span class="qty-controls">
+                    <button class="qty-btn" data-index="${index}" data-delta="-1" aria-label="Remove one ${item.name}">&minus;</button>
+                    <span class="qty">${item.qty}</span>
+                    <button class="qty-btn" data-index="${index}" data-delta="1" aria-label="Add one ${item.name}">+</button>
+                    <button class="remove-item" data-index="${index}">Remove</button>
+                </span>`;
+            cartItemsEl.appendChild(li);
+        });
+
+        cartTotalEl.textContent = total.toLocaleString();
+    }
+
+    cartItemsEl.addEventListener("click", (e) => {
+        const btn = e.target.closest("button");
+        if (!btn) return;
+        const idx = Number(btn.dataset.index);
+        if (btn.classList.contains("remove-item")) {
+            cart.splice(idx, 1);
+        } else if (btn.classList.contains("qty-btn")) {
+            cart[idx].qty += Number(btn.dataset.delta);
+            if (cart[idx].qty <= 0) cart.splice(idx, 1);
+        } else return;
+        saveCart();
+        updateCartCount();
+        renderCart();
+    });
+
+    clearCartBtn.addEventListener("click", () => {
+        cart = [];
+        saveCart();
+        updateCartCount();
+        renderCart();
+    });
+
+    checkoutBtn.addEventListener("click", () => {
+        const lines = cart.map(i => `- ${i.name} x ${i.qty}: KSh ${(i.price * i.qty).toLocaleString()}`);
+        const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+        const text = `Hello Dabay Sports Shop, I would like to order:\n${lines.join("\n")}\nTotal: KSh ${total.toLocaleString()}`;
+        window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`, "_blank");
+    });
+
+    document.body.addEventListener("click", (e) => {
+        if (e.target.classList.contains("add-cart")) {
+            addToCart(e.target.dataset.name, e.target.dataset.price, e.target);
+        }
+    });
+
+    // ---- LIVE SEARCH ----
+    const allProducts = Array.from(document.querySelectorAll(".sport-section .product"));
+
+    searchInput.addEventListener("input", () => {
+        const query = searchInput.value.trim().toLowerCase();
+        searchResultsGrid.innerHTML = "";
+
+        if (!query) {
+            searchResultsContainer.hidden = true;
+            return;
+        }
+
+        const matches = allProducts.filter(product => {
+            const title = product.querySelector("h3").textContent.toLowerCase();
+            const desc = product.querySelector("p").textContent.toLowerCase();
+            return title.includes(query) || desc.includes(query);
+        });
+
+        searchResultsContainer.hidden = false;
+
+        if (matches.length === 0) {
+            const msg = document.createElement("p");
+            msg.textContent = `No products found matching "${searchInput.value.trim()}".`;
+            searchResultsGrid.appendChild(msg);
+        } else {
+            matches.forEach(match => searchResultsGrid.appendChild(match.cloneNode(true)));
+        }
+    });
+
+    updateCartCount();
+    renderCart();
+});
+</script>
 </body>
 </html>
