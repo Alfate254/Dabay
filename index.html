@@ -8,21 +8,25 @@
 </head>
 <body>
 
-<header>
-    <h1>Dabay Sports Shop</h1>
-    <p>Your trusted store for sports equipment and merchandise</p>
+<header class="hero">
+<img class="hero-bg" src="image.png" alt="Athletes in action" fetchpriority="high" data-done="1">
+    <nav>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">&#9776; Menu</button>
+        <div class="nav-links" id="nav-links">
+            <a href="#home" data-home class="active">Home</a>
+            <!-- sport links are added by the script from SPORTS -->
+        </div>
+        <div class="nav-actions">
+            <button id="cart-button">Cart (<span id="cart-count">0</span>)</button>
+        </div>
+    </nav>
+
+    <div class="hero-content">
+        <h1>Dabay Sports Shop</h1>
+        <p>Your trusted store for sports equipment and merchandise</p>
+    </div>
 </header>
 
-<nav>
-    <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">&#9776; Menu</button>
-    <div class="nav-links" id="nav-links">
-        <a href="#home" data-home class="active">Home</a>
-        <!-- sport links are added by the script from SPORTS -->
-    </div>
-    <div class="nav-actions">
-        <button id="cart-button">Cart (<span id="cart-count">0</span>)</button>
-    </div>
-</nav>
 
 <main>
 
@@ -441,6 +445,12 @@ document.addEventListener("DOMContentLoaded", () => {
             searchResultsGrid.innerHTML = matches.map(card).join("");
         }
     });
+
+        // ---- NAV TURNS SOLID WHEN SCROLLING ----
+    const mainNav = document.querySelector("header nav");
+    const onScroll = () => mainNav.classList.toggle("scrolled", window.scrollY > 40);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
 
     updateCartCount();
     renderCart();
