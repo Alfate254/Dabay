@@ -2,39 +2,36 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- Makes the page scale properly on phones -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dabay Sports Shop</title>
-    <!-- Loads all the colours, layout and styling from index.css -->
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
-<!-- ===== SITE HEADER: shop name and slogan, shown on every page ===== -->
-<header>
-    <h1>Dabay Sports Shop</h1>
-    <p>Your trusted store for sports equipment and merchandise</p>
-</header>
 
-<!-- ===== NAVIGATION BAR ===== -->
-<nav>
-    <!-- Hamburger button: only useful on small screens, opens/closes the links -->
-    <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">&#9776; Menu</button>
-    <div class="nav-links" id="nav-links">
-        <!-- data-home marks this link as the "go to Home" link -->
-        <a href="#home" data-home class="active">Home</a>
-        <!-- sport links are added by the script from SPORTS -->
+<header class="hero">
+    <img class="hero-bg" src="pexels-sugar-jet-750021845-20688402.jpg" alt="Athletes in action" fetchpriority="high" data-done="1">
+
+    <nav>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">&#9776; Menu</button>
+        <div class="nav-links" id="nav-links">
+            <a href="#home" data-home class="active">Home</a>
+            <!-- sport links are added by the script from SPORTS -->
+        </div>
+        <div class="nav-actions">
+            <button id="cart-button">Cart (<span id="cart-count">0</span>)</button>
+        </div>
+    </nav>
+
+    <div class="hero-content">
+        <h1>Dabay Sports Shop</h1>
+        <p>Your trusted store for sports equipment and merchandise</p>
     </div>
-    <div class="nav-actions">
-        <!-- Cart button with a live item counter -->
-        <button id="cart-button">Cart (<span id="cart-count">0</span>)</button>
-    </div>
-</nav>
+</header>
 
 <main>
 
-    <!-- ===== HOME PAGE ===== -->
+    <!-- HOME PAGE -->
     <section id="home">
-        <!-- Welcome message -->
         <div class="hero-intro">
             <h2>Welcome to Dabay Sports Shop</h2>
             <p>
@@ -46,33 +43,27 @@
 
         <h2>Explore Our Sports Categories</h2>
 
-        <!-- Search box: typing here filters all products live -->
         <input type="text" id="search-input" placeholder="Search for a sport, brand or product...">
 
-        <!-- Search results area: hidden until the visitor types something -->
         <div id="search-results-container" hidden>
             <h3>Search Results</h3>
             <div class="products" id="search-results"></div>
         </div>
 
-        <!-- Sport tiles (Football, Basketball...) -->
         <div class="categories"><!-- category tiles are added by the script --></div>
     </section>
 
-    <!-- ===== SPORT PAGES: one hidden section per sport, built by the script ===== -->
+    <!-- SPORT SECTIONS are added by the script -->
     <div id="sport-sections"></div>
 
-    <!-- ===== SHOPPING CART PAGE (hidden until the Cart button is clicked) ===== -->
+    <!-- SHOPPING CART -->
     <section id="cart-section" hidden>
         <button class="back-button" data-home>&larr; Back to Home</button>
         <h2>Your Shopping Cart</h2>
 
-        <!-- The list of items in the cart -->
         <ul id="cart-items"></ul>
-        <!-- Shown only when the cart has nothing in it -->
         <p id="empty-cart-msg">Your cart is empty. Pick a sport to start shopping.</p>
 
-        <!-- Total price and the two cart buttons -->
         <div class="cart-summary">
             <h3>Total: KSh <span id="cart-total">0</span></h3>
             <div class="cart-actions">
@@ -84,13 +75,11 @@
 
 </main>
 
-<!-- ===== FOOTER ===== -->
 <footer>
     <p>&copy; 2026 Dabay Sports Shop. All rights reserved.</p>
     <p>Made by Louis Ngatia: AI Product Studio.</p>
 </footer>
 
-<!-- Loads all the shop logic (catalog, navigation, cart, search) from index.js -->
 <script src="index.js"></script>
 </body>
 </html>
